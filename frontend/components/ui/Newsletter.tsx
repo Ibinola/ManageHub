@@ -10,11 +10,9 @@ export default function Newsletter() {
   const [success, setSuccess] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address.");
@@ -22,7 +20,7 @@ export default function Newsletter() {
     }
 
     setError("");
-    setLoading(true)
+    setLoading(true);
 
     try {
       const res = await apiClient.post("/newsletter/subscribe", {
@@ -37,51 +35,43 @@ export default function Newsletter() {
     } finally {
       setLoading(false);
     }
-    
   };
 
   return (
-    <div
-      className="w-full flex justify-center px-4 pt-30 pb-10 bg-[#f8fafc]"
-      id="notify"
-    >
-      <div className="max-w-lg w-full bg-white backdrop-blur-lg rounded-2xl shadow-lg p-8 text-center">
-        {/* Title */}
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Be the First to Know
+    <section className="relative px-6 py-28 bg-gray-900 grain" id="notify">
+      <div className="max-w-3xl mx-auto text-center fade-in-up">
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          Ready to simplify your workspace?
         </h2>
-
-        {/* Subtitle */}
-        <p className="text-gray-600 mb-6">
-          Get exclusive early access and updates on our launch.
+        <p className="text-gray-400 mb-10 max-w-md mx-auto">
+          Join thousands of teams already managing smarter. No credit card
+          required.
         </p>
 
-        {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col sm:flex-row gap-3"
+          className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
         >
           <input
             type="email"
-            placeholder="Enter your email address"
+            placeholder="you@company.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/30"
           />
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center justify-center gap-2 bg-blue-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center justify-center gap-2 bg-white text-gray-900 font-medium px-7 py-3.5 rounded-full hover:bg-gray-100 transition-colors"
           >
-            {loading ? "Submitting..." : "Notify Me"}
+            {loading ? "Sending..." : "Get early access"}
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        {/* Error */}
-        {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
-        {success && <p className="text-green-600 text-sm mt-3">{success}</p>}
+        {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
+        {success && <p className="text-emerald-400 text-sm mt-4">{success}</p>}
       </div>
-    </div>
+    </section>
   );
 }
