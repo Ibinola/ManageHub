@@ -14,6 +14,10 @@ pub enum DataKey {
     Admin,
     Metadata(BytesN<32>),
     MetadataHistory(BytesN<32>),
+    /// Metadata attribute index: (attribute_key, attribute_value) -> Vec<token_ids>
+    /// This allows efficient querying of tokens by metadata attributes
+    /// Using MetadataValue directly avoids serialization complexity
+    MetadataIndex(String, MetadataValue),
 }
 
 #[contracttype]
@@ -145,6 +149,74 @@ impl MembershipTokenContract {
     }
 
     // ============================================================================
+    // Metadata Index Helper Functions
+    // ============================================================================
+
+    /// Adds a token ID to the metadata index for a specific attribute key-value pair.
+    ///
+    /// Uses MetadataValue directly as part of the index key, avoiding the need
+    /// for serialization and ensuring exact value matching.
+    ///
+    /// # Arguments
+    /// * `env` - The contract environment
+    /// * `attribute_key` - The metadata attribute key
+    /// * `attribute_value` - The metadata attribute value
+    /// * `token_id` - The token ID to add to the index
+    fn add_to_metadata_index(
+        env: &Env,
+        attribute_key: &String,
+        attribute_value: &MetadataValue,
+        token_id: &BytesN<32>,
+    ) {
+        let index_key = DataKey::MetadataIndex(attribute_key.clone(), attribute_value.clone());
+
+        let mut token_ids: Vec<BytesN<32>> = env
+            .storage()
+            .persistent()
+            .get(&index_key)
+            .unwrap_or_else(|| Vec::new(env));
+
+        // Only add if not already present
+        if !token_ids.iter().any(|id| id == token_id.clone()) {
+            token_ids.push_back(token_id.clone());
+            env.storage().persistent().set(&index_key, &token_ids);
+        }
+    }
+
+    /// Removes a token ID from the metadata index for a specific attribute key-value pair.
+    ///
+    /// # Arguments
+    /// * `env` - The contract environment
+    /// * `attribute_key` - The metadata attribute key
+    /// * `attribute_value` - The metadata attribute value
+    /// * `token_id` - The token ID to remove from the index
+    fn remove_from_metadata_index(
+        env: &Env,
+        attribute_key: &String,
+        attribute_value: &MetadataValue,
+        token_id: &BytesN<32>,
+    ) {
+        let index_key = DataKey::MetadataIndex(attribute_key.clone(), attribute_value.clone());
+
+        if let Some(token_ids) = env.storage().persistent().get::<DataKey, Vec<BytesN<32>>>(&index_key) {
+            // Find and remove the token ID
+            let mut new_ids = Vec::new(env);
+            for id in token_ids.iter() {
+                if id != token_id.clone() {
+                    new_ids.push_back(id);
+                }
+            }
+
+            if new_ids.is_empty() {
+                // Remove the index entry if no tokens remain
+                env.storage().persistent().remove(&index_key);
+            } else {
+                env.storage().persistent().set(&index_key, &new_ids);
+            }
+        }
+    }
+
+    // ============================================================================
     // Metadata Management Functions
     // ============================================================================
 
@@ -217,6 +289,28 @@ impl MembershipTokenContract {
 
         // Validate metadata
         validate_metadata(&metadata).map_err(|_| Error::MetadataValidationFailed)?;
+
+        // Update metadata indexes
+        // If there's existing metadata, remove old indexes first
+        if let Some(existing_metadata) = env
+            .storage()
+            .persistent()
+            .get::<DataKey, TokenMetadata>(&DataKey::Metadata(token_id.clone()))
+        {
+            // Remove old attribute indexes
+            for key in existing_metadata.attributes.keys() {
+                if let Some(value) = existing_metadata.attributes.get(key.clone()) {
+                    Self::remove_from_metadata_index(&env, &key, &value, &token_id);
+                }
+            }
+        }
+
+        // Add new attribute indexes
+        for key in attributes.keys() {
+            if let Some(value) = attributes.get(key.clone()) {
+                Self::add_to_metadata_index(&env, &key, &value, &token_id);
+            }
+        }
 
         // Store metadata
         env.storage()
@@ -314,11 +408,21 @@ impl MembershipTokenContract {
         // Require authorization
         token.user.require_auth();
 
-        // Validate and apply updates
+        // Validate and apply updates, tracking index changes
         for key in updates.keys() {
-            if let Some(value) = updates.get(key.clone()) {
-                validate_attribute(&key, &value).map_err(|_| Error::MetadataValidationFailed)?;
-                metadata.attributes.set(key, value);
+            if let Some(new_value) = updates.get(key.clone()) {
+                validate_attribute(&key, &new_value).map_err(|_| Error::MetadataValidationFailed)?;
+
+                // If attribute already exists, remove old index entry
+                if let Some(old_value) = metadata.attributes.get(key.clone()) {
+                    Self::remove_from_metadata_index(&env, &key, &old_value, &token_id);
+                }
+
+                // Add new index entry
+                Self::add_to_metadata_index(&env, &key, &new_value, &token_id);
+
+                // Update the attribute
+                metadata.attributes.set(key, new_value);
             }
         }
 
@@ -412,8 +516,13 @@ impl MembershipTokenContract {
         // Require authorization
         token.user.require_auth();
 
-        // Remove attributes
+        // Remove attributes and their index entries
         for key in attribute_keys.iter() {
+            // Remove from index if attribute exists
+            if let Some(value) = metadata.attributes.get(key.clone()) {
+                Self::remove_from_metadata_index(&env, &key, &value, &token_id);
+            }
+            // Remove the attribute from metadata
             metadata.attributes.remove(key);
         }
 
@@ -442,28 +551,45 @@ impl MembershipTokenContract {
 
     /// Queries tokens by metadata attribute.
     ///
-    /// Note: This is a basic implementation. For production, consider
-    /// implementing indexing for efficient queries.
+    /// Uses an efficient indexing system to find tokens matching specific
+    /// attribute key-value pairs without scanning all tokens.
     ///
     /// # Arguments
     /// * `env` - The contract environment
     /// * `attribute_key` - The attribute key to search for
-    /// * `attribute_value` - The attribute value to match
+    /// * `attribute_value` - The attribute value to match (exact match required)
     ///
     /// # Returns
-    /// * Vector of token IDs that have the matching attribute
+    /// * Vector of token IDs that have the exact matching attribute
+    ///
+    /// # Example
+    /// ```ignore
+    /// // Find all tokens with tier="gold"
+    /// let gold_tokens = query_tokens_by_attribute(
+    ///     env,
+    ///     String::from_str(&env, "tier"),
+    ///     MetadataValue::Text(String::from_str(&env, "gold"))
+    /// );
+    ///
+    /// // Find all tokens with level=5
+    /// let level5_tokens = query_tokens_by_attribute(
+    ///     env,
+    ///     String::from_str(&env, "level"),
+    ///     MetadataValue::Number(5)
+    /// );
+    /// ```
     pub fn query_tokens_by_attribute(
         env: Env,
-        _attribute_key: String,
-        _attribute_value: MetadataValue,
+        attribute_key: String,
+        attribute_value: MetadataValue,
     ) -> Vec<BytesN<32>> {
-        // Note: This is a simple implementation that would need optimization
-        // for production use. Consider implementing indexing or external
-        // query mechanisms for large-scale deployments.
-        Vec::new(&env)
-        // In a real implementation, you would:
-        // 1. Maintain an index of tokens by attribute
-        // 2. Query the index instead of scanning all tokens
-        // 3. Return matching token IDs
+        // Use the attribute value directly as part of the index key
+        let index_key = DataKey::MetadataIndex(attribute_key, attribute_value);
+
+        // Retrieve the list of token IDs from the index
+        env.storage()
+            .persistent()
+            .get(&index_key)
+            .unwrap_or_else(|| Vec::new(&env))
     }
 }
