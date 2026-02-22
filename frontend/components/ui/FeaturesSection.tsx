@@ -1,78 +1,107 @@
-import FeatureCard from "@/components/ui/FeatureCard";
-import { Users, Shield, BarChart3, Smartphone, Zap, Globe } from "lucide-react";
-
 const features = [
   {
-    icon: <Users className="h-6 w-6" />,
-    title: "Smart User Management",
-    description:
-      "Seamlessly manage members, staff, and visitors with role-based access control",
+    emoji: "👥",
+    title: "Team management",
+    desc: "Roles, permissions, and member directories — all tidy.",
+    accent: "bg-blue-50",
+    area: "a",
   },
   {
-    icon: <Shield className="h-6 w-6" />,
-    title: "Biometric Security",
-    description:
-      "Advanced fingerprint and facial recognition for secure workspace access",
+    emoji: "📊",
+    title: "Real-time analytics",
+    desc: "Occupancy, revenue, and engagement at a glance.",
+    accent: "bg-amber-50",
+    area: "b",
   },
   {
-    icon: <BarChart3 className="h-6 w-6" />,
-    title: "Real-time Analytics",
-    description:
-      "Track workspace utilization, member engagement, and revenue insights",
+    emoji: "🔐",
+    title: "Access control",
+    desc: "Secure entry with biometrics or key cards.",
+    accent: "bg-emerald-50",
+    area: "c",
   },
   {
-    icon: <Smartphone className="h-6 w-6" />,
-    title: "Mobile-First Design",
-    description:
-      "Native mobile apps for seamless check-ins and workspace bookings",
+    emoji: "📱",
+    title: "Mobile ready",
+    desc: "Check in and book from any device.",
+    accent: "bg-purple-50",
+    area: "d",
   },
   {
-    icon: <Zap className="h-6 w-6" />,
-    title: "Automated Billing",
-    description:
-      "Flexible subscription models with integrated payment processing",
+    emoji: "⚡",
+    title: "Automated billing",
+    desc: "Invoices and subscriptions on autopilot.",
+    accent: "bg-rose-50",
+    area: "e",
   },
   {
-    icon: <Globe className="h-6 w-6" />,
-    title: "Blockchain Integration",
-    description:
-      "Transparent payments and immutable audit logs powered by Stellar",
+    emoji: "🌐",
+    title: "Multi-location",
+    desc: "Manage every site from one dashboard.",
+    accent: "bg-cyan-50",
+    area: "f",
   },
 ];
 
 const FeaturesSection = () => {
   return (
-    <section
-      id="features"
-      className="relative z-10 px-4 py-30 bg-[#f8fafc] backdrop-blur-sm"
-    >
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Powerful Features Coming Your Way
+    <section id="features" className="relative px-6 py-28 bg-[#faf9f7] grain">
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-16 max-w-lg">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Everything you need,
+            <br />
+            nothing you don&apos;t.
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Experience the next generation of workspace management with
-            cutting-edge technology
+          <p className="text-gray-500">
+            Built for coworking spaces, tech hubs, and modern offices.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group hover:-translate-y-1"
-            >
-              <div className="bg-gradient-to-br from-blue-100 to-teal-100 w-14 h-14 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <div className="text-blue-600">{feature.icon}</div>
+        {/* Bento grid */}
+        <div
+          className="grid gap-4"
+          style={{
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gridTemplateRows: "auto auto auto",
+            gridTemplateAreas: `
+              "a a b b"
+              "c d d e"
+              "c f f e"
+            `,
+          }}
+        >
+          {features.map((f, i) => {
+            const isLarge = f.area === "a" || f.area === "b";
+            return (
+              <div
+                key={f.title}
+                className={`fade-in-up-delay-${Math.min(i + 1, 4)} ${f.accent} rounded-2xl p-6 md:p-8 flex flex-col justify-end border border-gray-100`}
+                style={{ gridArea: f.area }}
+              >
+                <span className="text-2xl mb-3">{f.emoji}</span>
+                <h3
+                  className={`font-semibold text-gray-900 mb-1 ${isLarge ? "text-xl" : "text-base"}`}
+                >
+                  {f.title}
+                </h3>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  {f.desc}
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
+
+        {/* Mobile fallback — simple stack */}
+        <style>{`
+          @media (max-width: 639px) {
+            #features .grid {
+              display: flex !important;
+              flex-direction: column;
+            }
+          }
+        `}</style>
       </div>
     </section>
   );
