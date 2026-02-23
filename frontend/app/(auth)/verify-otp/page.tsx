@@ -107,7 +107,7 @@ export default function VerifyOtpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#faf9f7] flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
@@ -125,8 +125,8 @@ export default function VerifyOtpPage() {
         {/* Main Content Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
           <div className="flex justify-center mb-6">
-            <div className="bg-blue-100 p-4 rounded-full">
-              <Mail className="h-10 w-10 text-blue-600" />
+            <div className="bg-gray-100 p-4 rounded-full">
+              <Mail className="h-10 w-10 text-gray-700" />
             </div>
           </div>
 
@@ -141,7 +141,7 @@ export default function VerifyOtpPage() {
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-14 h-14 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none bg-white text-gray-900 transition-all"
+                className="w-14 h-14 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-gray-900 focus:ring-2 focus:ring-gray-300 focus:outline-none bg-white text-gray-900 transition-all"
               />
             ))}
           </div>
@@ -149,7 +149,7 @@ export default function VerifyOtpPage() {
           <button
             onClick={handleVerify}
             disabled={isVerifying || otp.join("").length !== 4}
-            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="w-full bg-gray-900 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             {isVerifying ? (
               <>
@@ -162,14 +162,14 @@ export default function VerifyOtpPage() {
           </button>
 
           <div className="mt-6">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
               <div className="flex items-start">
-                <Mail className="h-5 w-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
+                <Mail className="h-5 w-5 text-gray-600 mt-0.5 mr-3 flex-shrink-0" />
                 <div className="text-left">
-                  <p className="text-sm font-medium text-blue-900 mb-1">
+                  <p className="text-sm font-medium text-gray-900 mb-1">
                     Didn&apos;t receive the code?
                   </p>
-                  <p className="text-sm text-blue-700">
+                  <p className="text-sm text-gray-600">
                     Check your spam folder or click the resend button below
                   </p>
                 </div>
@@ -180,7 +180,7 @@ export default function VerifyOtpPage() {
           <button
             onClick={handleResend}
             disabled={isResending || countdown > 0}
-            className="w-full mt-4 bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="w-full mt-4 bg-gray-900 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             {countdown > 0 ? (
               <>
@@ -211,7 +211,7 @@ export default function VerifyOtpPage() {
 
           <Link
             href="/login"
-            className="mt-6 flex items-center justify-center text-blue-600 hover:text-blue-500 font-medium transition-colors"
+            className="mt-6 flex items-center justify-center text-gray-700 hover:text-gray-900 font-medium transition-colors"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Sign In

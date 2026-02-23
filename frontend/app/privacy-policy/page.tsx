@@ -51,7 +51,7 @@ const PrivacyPolicyPage = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Hero Header */}
-      <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="flex items-center gap-3 mb-6">
             <div className="bg-white/20 backdrop-blur-sm p-3 rounded-xl">
@@ -62,11 +62,11 @@ const PrivacyPolicyPage = () => {
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Your Privacy Matters
           </h1>
-          <p className="text-xl text-blue-100 max-w-2xl">
+          <p className="text-xl text-gray-300 max-w-2xl">
             We're committed to protecting your personal information. Here's
             exactly how we handle your data, explained in plain English.
           </p>
-          <div className="flex items-center gap-2 mt-6 text-blue-100">
+          <div className="flex items-center gap-2 mt-6 text-gray-300">
             <Heart className="h-5 w-5" />
             <span className="text-sm">Last updated: January 27, 2025</span>
           </div>
@@ -83,8 +83,8 @@ const PrivacyPolicyPage = () => {
               Your information is never sold to advertisers or third parties.
             </p>
           </div>
-          <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-blue-500">
-            <Lock className="h-8 w-8 text-blue-500 mb-3" />
+          <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-gray-700">
+            <Lock className="h-8 w-8 text-gray-700 mb-3" />
             <h3 className="font-bold text-gray-900 mb-2">
               Bank-Level Security
             </h3>
@@ -106,9 +106,9 @@ const PrivacyPolicyPage = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
           {/* The Short Version */}
-          <div className="bg-gradient-to-r from-slate-50 to-blue-50 p-8 border-b border-gray-200">
+          <div className="bg-gradient-to-r from-slate-50 to-gray-100 p-8 border-b border-gray-200">
             <div className="flex items-start gap-4">
-              <div className="bg-blue-600 p-3 rounded-lg flex-shrink-0">
+              <div className="bg-gray-900 p-3 rounded-lg flex-shrink-0">
                 <HelpCircle className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -135,7 +135,7 @@ const PrivacyPolicyPage = () => {
             {/* What We Collect */}
             <section>
               <div className="flex items-center gap-3 mb-6">
-                <Database className="h-7 w-7 text-blue-600" />
+                <Database className="h-7 w-7 text-gray-700" />
                 <h2 className="text-3xl font-bold text-gray-900">
                   What Information We Collect
                 </h2>
@@ -205,7 +205,7 @@ const PrivacyPolicyPage = () => {
             {/* How We Use It */}
             <section>
               <div className="flex items-center gap-3 mb-6">
-                <Users className="h-7 w-7 text-blue-600" />
+                <Users className="h-7 w-7 text-gray-700" />
                 <h2 className="text-3xl font-bold text-gray-900">
                   How We Use Your Information
                 </h2>
@@ -258,7 +258,7 @@ const PrivacyPolicyPage = () => {
             {/* Who We Share With */}
             <section>
               <div className="flex items-center gap-3 mb-6">
-                <Lock className="h-7 w-7 text-blue-600" />
+                <Lock className="h-7 w-7 text-gray-700" />
                 <h2 className="text-3xl font-bold text-gray-900">
                   Who Sees Your Information
                 </h2>
@@ -271,7 +271,7 @@ const PrivacyPolicyPage = () => {
               </p>
 
               <div className="space-y-4">
-                <div className="border-l-4 border-blue-500 pl-5 py-3">
+                <div className="border-l-4 border-gray-700 pl-5 py-3">
                   <h4 className="font-semibold text-gray-900 mb-2">
                     Your Hub Administrator
                   </h4>
@@ -281,7 +281,7 @@ const PrivacyPolicyPage = () => {
                   </p>
                 </div>
 
-                <div className="border-l-4 border-blue-500 pl-5 py-3">
+                <div className="border-l-4 border-gray-700 pl-5 py-3">
                   <h4 className="font-semibold text-gray-900 mb-2">
                     Payment Processors
                   </h4>
@@ -291,7 +291,7 @@ const PrivacyPolicyPage = () => {
                   </p>
                 </div>
 
-                <div className="border-l-4 border-blue-500 pl-5 py-3">
+                <div className="border-l-4 border-gray-700 pl-5 py-3">
                   <h4 className="font-semibold text-gray-900 mb-2">
                     Cloud Hosting
                   </h4>
@@ -301,7 +301,7 @@ const PrivacyPolicyPage = () => {
                   </p>
                 </div>
 
-                <div className="border-l-4 border-blue-500 pl-5 py-3">
+                <div className="border-l-4 border-gray-700 pl-5 py-3">
                   <h4 className="font-semibold text-gray-900 mb-2">
                     When Required by Law
                   </h4>
@@ -317,7 +317,7 @@ const PrivacyPolicyPage = () => {
             {/* Cookies */}
             <section>
               <div className="flex items-center gap-3 mb-6">
-                <Cookie className="h-7 w-7 text-blue-600" />
+                <Cookie className="h-7 w-7 text-gray-700" />
                 <h2 className="text-3xl font-bold text-gray-900">
                   Cookies & Tracking
                 </h2>
@@ -329,13 +329,13 @@ const PrivacyPolicyPage = () => {
                 advertising cookies.
               </p>
 
-              <div className="bg-blue-50 rounded-lg p-6">
+              <div className="bg-gray-50 rounded-lg p-6">
                 <h4 className="font-semibold text-gray-900 mb-3">
                   The cookies we use:
                 </h4>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-gray-700 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900">
                         Essential Cookies
@@ -346,7 +346,7 @@ const PrivacyPolicyPage = () => {
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-gray-700 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900">
                         Preference Cookies
@@ -357,7 +357,7 @@ const PrivacyPolicyPage = () => {
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-gray-700 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900">
                         Analytics Cookies
@@ -375,7 +375,7 @@ const PrivacyPolicyPage = () => {
             {/* Your Rights */}
             <section>
               <div className="flex items-center gap-3 mb-6">
-                <Shield className="h-7 w-7 text-blue-600" />
+                <Shield className="h-7 w-7 text-gray-700" />
                 <h2 className="text-3xl font-bold text-gray-900">
                   Your Rights & Control
                 </h2>
@@ -386,7 +386,7 @@ const PrivacyPolicyPage = () => {
               </p>
 
               <div className="grid md:grid-cols-2 gap-4">
-                <div className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-blue-500 transition-colors">
+                <div className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-gray-700 transition-colors">
                   <h4 className="font-bold text-gray-900 mb-2">
                     Access Your Data
                   </h4>
@@ -395,7 +395,7 @@ const PrivacyPolicyPage = () => {
                     settings.
                   </p>
                 </div>
-                <div className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-blue-500 transition-colors">
+                <div className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-gray-700 transition-colors">
                   <h4 className="font-bold text-gray-900 mb-2">
                     Correct Information
                   </h4>
@@ -403,7 +403,7 @@ const PrivacyPolicyPage = () => {
                     Update your profile anytime if something's wrong.
                   </p>
                 </div>
-                <div className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-blue-500 transition-colors">
+                <div className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-gray-700 transition-colors">
                   <h4 className="font-bold text-gray-900 mb-2">
                     Delete Your Account
                   </h4>
@@ -411,7 +411,7 @@ const PrivacyPolicyPage = () => {
                     Remove your data permanently. We'll miss you though!
                   </p>
                 </div>
-                <div className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-blue-500 transition-colors">
+                <div className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-gray-700 transition-colors">
                   <h4 className="font-bold text-gray-900 mb-2">
                     Opt Out of Emails
                   </h4>
@@ -425,7 +425,7 @@ const PrivacyPolicyPage = () => {
             {/* Data Security */}
             <section>
               <div className="flex items-center gap-3 mb-6">
-                <Lock className="h-7 w-7 text-blue-600" />
+                <Lock className="h-7 w-7 text-gray-700" />
                 <h2 className="text-3xl font-bold text-gray-900">
                   How We Keep Data Secure
                 </h2>
@@ -436,7 +436,7 @@ const PrivacyPolicyPage = () => {
                 your information:
               </p>
 
-              <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl p-6 space-y-3">
+              <div className="bg-gradient-to-br from-slate-50 to-gray-100 rounded-xl p-6 space-y-3">
                 <p className="text-gray-700">
                   🔒 All data encrypted in transit and at rest
                 </p>
@@ -501,16 +501,16 @@ const PrivacyPolicyPage = () => {
         </div>
 
         {/* Contact Section */}
-        <div className="mt-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-8 text-white text-center">
+        <div className="mt-12 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 text-white text-center">
           <Mail className="h-12 w-12 mx-auto mb-4 opacity-90" />
           <h2 className="text-2xl font-bold mb-3">Still Have Questions?</h2>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+          <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
             Privacy can be confusing. If you have questions about how we handle
             your data, we're here to help. Real humans, real answers.
           </p>
           <a
             href="mailto:privacy@managehub.com"
-            className="inline-flex items-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+            className="inline-flex items-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
           >
             <Mail className="h-5 w-5" />
             privacy@managehub.com
